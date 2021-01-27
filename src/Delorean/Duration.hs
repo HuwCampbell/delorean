@@ -31,9 +31,12 @@ instance Eq Duration where
 instance Ord Duration where
   compare a b = on compare durationToSeconds a b
 
+instance Semigroup Duration where
+  a <> b = Seconds $ durationToSeconds a + durationToSeconds b
+
 instance Monoid Duration where
   mempty = Seconds 0
-  mappend a b = Seconds $ durationToSeconds a + durationToSeconds b
+  mappend = (<>)
 
 durationToSeconds :: Duration -> Int
 durationToSeconds (Seconds n) =
